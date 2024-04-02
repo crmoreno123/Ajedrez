@@ -1,0 +1,75 @@
+const matrizDePosicion = [
+    [0, 0, 0, ..., 0]
+    [0, 0, 0, ..., 0]
+    ...
+    [0, 0, 0, ..., 0]
+];
+const posicionDelRey = [5, 5];
+const piezasvivas = matrizDePosicion.count(x => x != 0);
+
+function funcionDelCaballo(posiciones) {
+    const nuevasPosiciones = [];
+    posiciones.forEach(posicion => nuevasPosiciones.push([...]))
+    return nuevasPosiciones;
+} 
+
+function funcionDelApfil(posiciones) {
+    const nuevasPosiciones = [];
+    posiciones.forEach(posicion => nuevasPosiciones.push([...]))
+    return nuevasPosiciones;
+} 
+
+function funcionDeLaTorre(posiciones) {
+    const nuevasPosiciones = [];
+    posiciones.forEach(posicion => nuevasPosiciones.push([...]))
+    return nuevasPosiciones;
+} 
+
+function funcionDeLaReina(posiciones) {
+    const nuevasPosiciones = [];    
+    posiciones.forEach(posicion => nuevasPosiciones.push(
+        funcionDelApfil(posicion), funcionDeLaTorre(posicion)))
+    return nuevasPosiciones;
+
+} 
+
+let amenazas = 0;
+for (var m = 0; m < 8; m++) {
+    for (var n = 0; n < 8; n++) {
+        function pasosMinimos(posiciones, posicionDelRey, funcionDePosicion, s) {
+            if (posiciones.find(posicionDelRey)) {return s}
+            else {
+                pasosMinimos(
+                    posiciones.forEach(posicion => funcionDePosicion(posicion)),
+                    posicionDelRey,
+                    funcionDePosicion,
+                    s + 1
+                );
+            }
+        }
+
+        let funcionDeEstaPieza;
+        switch (matrizDePosicion[m][n]) {
+            case 3:
+                funcionDeEstaPieza = funcionDelCaballo;
+                break;
+            case 3.5:
+                funcionDeEstaPieza = funcionDelApfil;
+                break;
+            case 5:
+                funcionDeEstaPieza = funcionDeLaTorre
+                break;
+            case 9:
+                funcionDeEstaPieza = funcionDeLaReina;
+                break;
+            default:
+                continue;
+        }
+
+        amenazas += 
+            matrizDePosicion[m][n]/Math.abs(matrizDePosicion[m][n]) * 
+            pasosMinimos([[m, n]], posicionDelRey, funcionDeEstaPieza, 0);
+    }
+}
+
+console.log(amenazas * (1/piezasvivas));
